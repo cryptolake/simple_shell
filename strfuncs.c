@@ -2,6 +2,31 @@
 #include <stddef.h>
 
 /**
+* _strcat - concatonate two strings
+* @dest: string to contonate into
+* @src: string to add
+*
+* Return: pointer of dest
+**/
+char *_strcat(char *dest, char *src)
+{
+	int ls, ld, i;
+
+	ls = strlen(src);
+	ld = strlen(dest);
+
+	for (i = 0; i < ls; i++)
+	{
+		dest[ld + i] = src[i];
+	}
+	dest[ls + ld] = '\0';
+
+
+	return (dest);
+}
+
+
+/**
  * _strlen - get length of string
  *
  * @s: string
@@ -87,7 +112,7 @@ char *_strdup(char *str)
  *
  * Return: difference
  **/
-int _strcmp(char *s1, char *s2)
+int _strcmp(const char *s1, const char *s2)
 {
 	int i, b, d;
 
@@ -104,41 +129,3 @@ int _strcmp(char *s1, char *s2)
 	return (d);
 }
 
-/**
- * strnon - remove newline from string
- * @str: string
- *
- * Return: string without newline
- **/
-char *strnon(char *str)
-{
-	int l, i = 0, n = 0, j = 0;
-	char *s;
-
-	if (str == NULL)
-		return (NULL);
-	l = _strlen(str);
-	while (str[i])
-	{
-		if (str[i] == '\n')
-			n++;
-		i++;
-	}
-	s = malloc(sizeof(char) * ((l + 1) - n));
-
-	i = 0;
-	j = 0;
-
-	while (i <= l)
-	{
-		if (str[i] != '\n')
-		{
-			s[j] = str[i];
-			j++;
-		}
-		i++;
-	}
-	free(str);
-
-	return (s);
-}

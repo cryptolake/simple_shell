@@ -3,6 +3,45 @@
 #define INFINITE 1
 
 /**
+ * strnon - remove newline from string
+ * @str: string
+ *
+ * Return: string without newline
+ **/
+char *strnon(char *str)
+{
+	int l, i = 0, n = 0, j = 0;
+	char *s;
+
+	if (str == NULL)
+		return (NULL);
+	l = _strlen(str);
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			n++;
+		i++;
+	}
+	s = malloc(sizeof(char) * ((l + 1) - n));
+
+	i = 0;
+	j = 0;
+
+	while (i <= l)
+	{
+		if (str[i] != '\n')
+		{
+			s[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	free(str);
+
+	return (s);
+}
+
+/**
  * run_av - fork and run program with parameters
  *
  * @av: array of strings of program and it's pramaters
@@ -41,6 +80,7 @@ void run_av(char **av)
 void execute_line(char *line)
 {
 	char **av;
+	char *p;
 
 	line = strnon(line);
 	av = strtow(line, " ");
@@ -51,11 +91,26 @@ void execute_line(char *line)
 	else
 	{
 		free(line);
-		run_av(av);
-		free_tow(av);
+
+		p = path_handle(av[0]);
+		/* printf("\np = %s\n",p); */
+		if (p)
+		{
+			free(av[0]);
+			av[0] = p;
+			run_av(av);
+			free_tow(av);
+		}
+
+		else
+		{
+			printf("\nfile not found.\n");
+			free_tow(av);
+
+		}
+
 	}
 }
-
 
 /**
  * main - main loop of shell
