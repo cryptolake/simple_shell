@@ -112,9 +112,8 @@ void swap(char *a, char *b)
  **/
 char *rev_string(char *s)
 {
-   int n = _strlen(s);
-   int i;
-
+	int n = _strlen(s);
+	int i;
 
 	for (i = 0; i < n / 2; i++)
 		swap(&s[i], &s[n - i - 1]);

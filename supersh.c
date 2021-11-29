@@ -2,46 +2,21 @@
 
 #define INFINITE 1
 
-char *strnon(char *str)
-{
-	int l, i = 0, n = 0, j = 0;
-	char *s;
-
-	if (str == NULL)
-		return (NULL);
-	l = _strlen(str);
-	while (str[i])
-	{
-		if (str[i] == '\n')
-			n++;
-		i++;
-	}
-	s = malloc(sizeof(char) * ((l + 1) - n));
-
-	i = 0; j = 0;
-
-	while (i <= l)
-	{
-		if (str[i] != '\n')
-		{
-			s[j] = str[i];
-			j++;
-		}
-		i++;
-	}
-	free(str);
-
-	return (s);
-}
-
-void fork_n_run(char **av)
+/**
+ * run_av - fork and run program with parameters
+ *
+ * @av: array of strings of program and it's pramaters
+ **/
+void run_av(char **av)
 {
 
 	pid_t my_pid, child;
 	int wstatus;
 
-	if (child = fork(), child == -1)
-		printf("\nss: %s:  Process cannot be started\n", av[0]);
+	child = fork();
+
+	if (child == -1)
+		perror("hsh");
 
 	if (child == 0)
 	{
@@ -49,9 +24,9 @@ void fork_n_run(char **av)
 
 		if (my_pid == -1)
 		{
-			printf("\nss: %s:  cannot be executed\n", av[0]);
+			perror(av[0]);
+			free_tow(av);
 			exit(1);
-
 		}
 	}
 
@@ -59,39 +34,81 @@ void fork_n_run(char **av)
 		wait(&wstatus);
 }
 
-int main (void)
+/**
+ *
+ *
+ **/
+void execute_line(char *line)
 {
-	char *s = NULL, **av;
-	size_t count;
+	char **av;
 
-	while (INFINITE)
+	line = strnon(line);
+	av = strtow(line, " ");
+
+	if (av == NULL)
+		free(line);
+
+	else
 	{
-		write(STDOUT_FILENO, "$ ", 2);
-		if (getline(&s, &count, stdin) == EOF)
+		free(line);
+		run_av(av);
+		free_tow(av);
+	}
+}
+
+
+/**
+ * main - main loop of shell
+ *
+ * Return: 0 success, other otherwise
+ **/
+int main(void)
+{
+	char *s = NULL;
+	size_t count = 0;
+	ssize_t gt = 0;
+
+	while (isatty(STDIN_FILENO) == 0)
+	{
+		gt = getline(&s, &count, stdin);
+		if (gt == EOF)
 		{
-			write(STDOUT_FILENO,"\nexit", 5);
 			free(s);
-			exit(1);
+			exit(0);
 		}
 
 		if (_strcmp(s, "\n"))
 		{
-			s = strnon(s);
-			av = strtow(s, ' ');
-
-			free(s);
+			execute_line(s);
 			s = NULL;
-
-			fork_n_run(av);
-			free_tow(av);
 		}
+	}
+	if (isatty(STDIN_FILENO) == 0)
+		return (0);
+
+	while (INFINITE)
+	{
+		write(STDOUT_FILENO, "$ ", 2);
+		gt = getline(&s, &count, stdin);
+
+		if (gt == EOF)
+		{
+			write(STDOUT_FILENO, "\nexit\n", 6);
+			free(s);
+			exit(0);
+		}
+
+		if (_strcmp(s, "\n"))
+		{
+			execute_line(s);
+			s = NULL;
+		}
+
 		else
 		{
 			free(s);
 			s = NULL;
 		}
-
 	}
-
 	return (0);
 }

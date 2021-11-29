@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stddef.h>
 
 /**
  * _strlen - get length of string
@@ -7,12 +8,12 @@
  *
  * Return: length
  **/
-int _strlen(const char *s)
+size_t _strlen(const char *s)
 {
-	int i = 0;
+	size_t i = 0;
 
-	/* if (s[i] == '\0' && s[i+1] == '\0') */
-	/* 	return (1); */
+	if (s == NULL)
+		return (0);
 
 	while (s[i] != '\0')
 		i++;
@@ -101,4 +102,43 @@ int _strcmp(char *s1, char *s2)
 		}
 	}
 	return (d);
+}
+
+/**
+ * strnon - remove newline from string
+ * @str: string
+ *
+ * Return: string without newline
+ **/
+char *strnon(char *str)
+{
+	int l, i = 0, n = 0, j = 0;
+	char *s;
+
+	if (str == NULL)
+		return (NULL);
+	l = _strlen(str);
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			n++;
+		i++;
+	}
+	s = malloc(sizeof(char) * ((l + 1) - n));
+
+	i = 0;
+	j = 0;
+
+	while (i <= l)
+	{
+		if (str[i] != '\n')
+		{
+			s[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	free(str);
+
+	return (s);
 }
