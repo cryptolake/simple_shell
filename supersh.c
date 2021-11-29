@@ -1,10 +1,6 @@
-#include <stddef.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <wait.h>
-#include <string.h>
-#include <stdlib.h>
-#include "strtow.h"
+#include "main.h"
+
+#define INFINITE 1
 
 char *strnon(char *str)
 {
@@ -13,7 +9,7 @@ char *strnon(char *str)
 
 	if (str == NULL)
 		return (NULL);
-	l = strlen(str);
+	l = _strlen(str);
 	while (str[i])
 	{
 		if (str[i] == '\n')
@@ -68,17 +64,17 @@ int main (void)
 	char *s = NULL, **av;
 	size_t count;
 
-	while (1)
+	while (INFINITE)
 	{
-		fputs("$ ", stdout);
+		write(STDOUT_FILENO, "$ ", 2);
 		if (getline(&s, &count, stdin) == EOF)
 		{
-			puts("\nexit");
+			write(STDOUT_FILENO,"\nexit", 5);
 			free(s);
 			exit(1);
 		}
 
-		if (strcmp(s, "\n"))
+		if (_strcmp(s, "\n"))
 		{
 			s = strnon(s);
 			av = strtow(s, ' ');
