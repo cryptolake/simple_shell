@@ -83,7 +83,7 @@ void execute_line(char *line)
 	char *p;
 
 	line = strnon(line);
-	av = strtow(line, " ");
+	av = strtow(line, ' ');
 
 	if (av == NULL)
 		free(line);
@@ -104,7 +104,7 @@ void execute_line(char *line)
 
 		else
 		{
-			printf("\nfile not found.\n");
+			printf("hsh: %s: command not found\n", av[0]);
 			free_tow(av);
 
 		}
@@ -165,5 +165,6 @@ int main(void)
 			s = NULL;
 		}
 	}
+
 	return (0);
 }

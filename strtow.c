@@ -1,36 +1,50 @@
 #include "main.h"
 
+
 /**
- * strtow - split a string into words
+ * strtow - split a string into tokens by delimeter
  *
  * @str: string
- * @del: delimiter
+ * @del: delimeter
  *
- * Return: array of words
+ * Return: array of strings of tokens
  **/
-char **strtow(char *str, char *del)
+char **strtow(const char *str, const char del)
 {
 	char **s = NULL;
-	char *t;
-	size_t i = 0;
+	int i = 0, j, w = 0;
 
-	t = strtok(str, del);
-	if (!t)
+	while (str[i] != '\0' && str[i] == del)
+		i++;
+	if (!str[i])
 		return (NULL);
 
-	while (t)
+	i = 0;
+	while (str[i])
 	{
-		s = _realloc(s, sizeof(char *) * i, sizeof(char *) * (i + 1));
+		j = i;
+		if (str[i] != del)
+		{
+			s = _realloc(s, sizeof(char *) * w,
+						sizeof(char *) * (w + 1));
+			s[w] = NULL;
+			while (str[j] && str[j] != del)
+			{
+				s[w] = _realloc(s[w], sizeof(char) * (j - i), sizeof(char) * ((j - i) + 1));
+				s[w][j - i] = str[j];
+				j++;
+			}
+			s[w] = _realloc(s[w], sizeof(char) * (j - i), sizeof(char) * ((j - i) + 1));
+			s[w][j-i] = '\0';
+			i += (j - i);
+			w++;
+		}
 
-		s[i] = malloc(_strlen(t) + 1);
-		_memcpy(s[i], t, _strlen(t) + 1);
-
-		t = strtok(NULL, del);
-		i++;
+		else
+			i++;
 	}
-
-	s = _realloc(s, sizeof(char *) * i, sizeof(char *) * (i + 1));
-	s[i] = t;
+	s = _realloc(s, sizeof(char *) * w, sizeof(char *) * (w + 1));
+	s[w] = NULL;
 
 	return (s);
 }

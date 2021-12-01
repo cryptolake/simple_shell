@@ -27,9 +27,9 @@ char *path_match(char *s)
 	int i = 0;
 	struct stat st;
 
-	path = _strdup(getenv("PATH"));
-	arr_p = strtow(path, ":");
-	free(path);
+	path = _getenv("PATH");
+	arr_p = strtow(path, ':');
+
 	while(arr_p[i] != NULL)
 	{
 		p = make_path(arr_p[i], s);

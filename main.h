@@ -14,12 +14,13 @@ char *_memcpy(char *dest, char *src, unsigned int n);
 
 size_t _strlen(const char *s);
 char *_strcpy(char *dest, char *src);
-char **strtow(char *str, char *del);
 int _strcmp(const char *s1, const char *s2);
 char *strnon(char *str);
 char *_strcat(char *dest, char *src);
 char *_strdup(char *str);
+char **strtow(const char *str, const char del);
 
+char *_getenv(const char *name);
 char *path_handle(char *path);
 
 #endif
