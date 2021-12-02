@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stddef.h>
 
 
 /**
@@ -61,4 +62,20 @@ void free_tow(char **tow)
 	while (tow[i])
 		free(tow[i++]);
 	free(tow);
+}
+
+/**
+ * len_tow - number of elements in tow array
+ * @av: array
+ *
+ * Return: length of array
+ **/
+size_t len_tow(char **av)
+{
+	size_t i = 0;
+
+	while (av[i])
+		i++;
+
+	return (i);
 }

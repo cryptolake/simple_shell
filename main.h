@@ -8,7 +8,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-void free_tow(char **tow);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *_memcpy(char *dest, char *src, unsigned int n);
 
@@ -18,9 +17,16 @@ int _strcmp(const char *s1, const char *s2);
 char *strnon(char *str);
 char *_strcat(char *dest, char *src);
 char *_strdup(char *str);
-char **strtow(const char *str, const char del);
 
 char *_getenv(const char *name);
-char *path_handle(char *path);
+char *path_match(char **s);
+int is_path(char *s);
+int is_dir(char *file);
+
+int _atoi(const char *s);
+
+void run_av(char **av);
+void execute_line(char *line);
+void err_out(char *name, char *err);
 
 #endif

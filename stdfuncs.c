@@ -1,89 +1,110 @@
 #include "main.h"
 
 /**
-* _abs - return absolute value
-* @n: number
-*
-* Return: absolute value
-**/
-int _abs(int n)
+ * isn - check if character a number or not
+ *
+ * @c: character
+ *
+ * Return: 1 number, 0 not a number
+ **/
+int isn(char c)
 {
-	if (n < 0)
-		return (-n);
+	if (c >= '0' && c <= '9')
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
+}
+
+/**
+ * sign - return the sign of string before a number
+ *
+ * @s: string
+ * @l: length of string
+ *
+ * Return: 1 positive, -1 negative
+ **/
+int sign(const char *s, int l)
+{
+	int i, n;
+
+	n = 1;
+
+	i = 0;
+	while (!(isn(s[i])) && i <= l)
+	{
+		if (s[i] == '-')
+		{
+			n = -n;
+		}
+		i++;
+	}
 	return (n);
 }
 
 
 /**
- * count_d10 - count number of digits
+ * numl - get the length of the number inside a string
+ * @s: string
+ * @i: first index of the number
  *
- * @n: number
- *
- * Return: 10^count-1
+ * Return: index of the last digit of number
  **/
-int count_d10(int n)
+int numl(const char *s, int i)
 {
-	int x;
-
-	x = 1;
-	n /= 10;
-	while (n != 0)
+	while (isn(s[i]))
 	{
-		n /= 10;
-		x *= 10;
-	}
-	return (x);
-}
-
-
-/**
- * _itoa - int to str
- *
- * @n: number
- * Return: string
- **/
-char *_itoa(int n)
-{
-	char *s;
-	int x = 0,
-	y = 0,
-	c = 0,
-	i = 0,
-	b = _abs(n),
-	l = 0,
-	e = 1;
-
-	while (b != 0)
-	{
-		b /= 10;
-		l++;
-	}
-
-	x = count_d10(n);
-	if (n < 0)
-	{
-		y = 1;
-		e = -1;
-	}
-
-	s = malloc(sizeof(char) * (l + y + 1));
-	if (s == NULL)
-		return (NULL);
-
-	if (n < 0)
-		s[i++] = '-';
-
-	while (x != 0)
-	{
-		c = e * ((n / x) % 10) + '0';
-		x /= 10;
-		s[i] = c;
 		i++;
 	}
+	return (i);
+}
 
-	s[i] = '\0';
+/**
+* _atoi - convert number in string to int
+*
+* @s: string
+*
+* Return: number
+**/
+int _atoi(const char *s)
+{
+	int n;
+	int l, i, j;
+	int k;
+	int f;
 
-	return (s);
+	l = _strlen(s);
+	n = 0;
+	f = 0;
+
+	for (i = 0; i < l && f == 0; i++)
+	{
+		if (isn(s[i]))
+		{
+			f = 1;
+		}
+
+	}
+
+	if (f)
+	{
+		i--;
+		k = sign(s, l);
+		for (j = i; j <= numl(s, i) - 1; j++)
+		{
+			n = n + k * (s[j] - '0');
+			if (j < numl(s, i) - 1)
+				n *= 10;
+		}
+		return (n);
+	}
+	else
+	{
+		return (0);
+	}
 }
 
 
