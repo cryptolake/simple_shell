@@ -14,7 +14,6 @@ char *_memcpy(char *dest, char *src, unsigned int n);
 size_t _strlen(const char *s);
 char *_strcpy(char *dest, char *src);
 int _strcmp(const char *s1, const char *s2);
-char *strnon(char *str);
 char *_strcat(char *dest, char *src);
 char *_strdup(char *str);
 

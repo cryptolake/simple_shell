@@ -68,7 +68,7 @@ void execute_line(char *line)
 {
 	char **av;
 
-	line = strnon(line);
+	line[_strlen(line) - 1] = '\0';
 	av = strtow(line, ' ');
 	free(line);
 
