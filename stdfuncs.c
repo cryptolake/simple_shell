@@ -106,38 +106,3 @@ int _atoi(const char *s)
 		return (0);
 	}
 }
-
-
-/**
- * swap - swap two variables
- *
- * @a: first var
- * @b: second var
- **/
-void swap(char *a, char *b)
-{
-	char c;
-
-	c = *a;
-	*a = *b;
-	*b = c;
-}
-
-
-/**
- * rev_string - reverse string
- *
- * @s: string
- *
- * Return: string reversed
- **/
-char *rev_string(char *s)
-{
-	int n = _strlen(s);
-	int i;
-
-	for (i = 0; i < n / 2; i++)
-		swap(&s[i], &s[n - i - 1]);
-
-	return (s);
-}

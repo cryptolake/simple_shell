@@ -9,7 +9,6 @@
  **/
 char *_getenv(const char *name)
 {
-	extern char **environ;
 	int i = 0, j;
 
 	if (!name)

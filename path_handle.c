@@ -4,6 +4,11 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+/**
+ * is_dir - is file a directory
+ * @file: path to file
+ * Return: (0) not a dir (1) is dir
+ **/
 int is_dir(char *file)
 {
 	struct stat st;
@@ -15,39 +20,57 @@ int is_dir(char *file)
 		return (0);
 }
 
-int is_path(char *s)
+/**
+ * is_path - if path not absolute
+ * @path: path of function
+ *
+ * Return: 1 (not absolute) 0 (absolute)
+ **/
+int is_path(char *path)
 {
-	if (_strlen(s) >= 2)
+	if (_strlen(path) >= 2)
 	{
-		if ((s[0] == '.' && s[1] == '/') || s[0] == '/' ||
-			(s[0] == '.' && s[1] == '.' && s[2] == '/'))
+		if ((path[0] == '.' && path[1] == '/') || path[0] == '/' ||
+			(path[0] == '.' && path[1] == '.' && path[2] == '/'))
 			return (1);
 	}
 
 	return (0);
 }
 
+/**
+ * make_path - make path to file from directory and file
+ * @path: path to directory
+ * @file: file
+ * Return: New Path
+ **/
 char *make_path(char *path, char *file)
 {
-	char *s;
+	char *npath;
 
 	if (path == NULL || file == NULL)
 		return (NULL);
 
-	s = malloc(sizeof(char) *
+	npath = malloc(sizeof(char) *
 			(_strlen(path) + _strlen(file) + 2));
-	if (!s)
+	if (!npath)
 		return (NULL);
 
-	_strcpy(s, path);
-	s[_strlen(path)] = '/';
-	s[_strlen(path)+1] = '\0';
-	_strcat(s, file);
+	_strcpy(npath, path);
+	npath[_strlen(path)] = '/';
+	npath[_strlen(path) + 1] = '\0';
+	_strcat(npath, file);
 
-	return (s);
+	return (npath);
 }
 
-char *path_match(char **s)
+/**
+ * path_match - find directory insid PATH
+ * that file resides in if any
+ * @exec: executable name
+ * Return: full path of executable or NULL if it's not found
+ **/
+char *path_match(char **exec)
 {
 	char **arr_p, *p, *path;
 	int i = 0;
@@ -61,14 +84,14 @@ char *path_match(char **s)
 	if (!arr_p)
 		return (NULL);
 
-	while(arr_p[i] != NULL)
+	while (arr_p[i] != NULL)
 	{
 
-		p = make_path(arr_p[i], *s);
+		p = make_path(arr_p[i], *exec);
 		if (stat(p, &st) == 0)
 		{
-			free(*s);
-			*s = p;
+			free(*exec);
+			*exec = p;
 			free_tow(arr_p);
 			return (p);
 		}

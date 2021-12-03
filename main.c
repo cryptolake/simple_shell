@@ -1,7 +1,5 @@
 #include "main.h"
-
-#define INFINITE 1
-
+#include <signal.h>
 
 /**
  * main - main loop of shell
@@ -10,51 +8,38 @@
  **/
 int main(void)
 {
-	char *s = NULL;
+	char *line = NULL;
 	size_t count = 0;
 	ssize_t gt = 0;
 
-	while (isatty(STDIN_FILENO) == 0)
+	while (isatty(STDIN_FILENO) == 0 && gt != EOF)
 	{
-		gt = getline(&s, &count, stdin);
-		if (gt == EOF)
-		{
-			free(s);
-			exit(0);
-		}
+		gt = getline(&line, &count, stdin);
 
-		if (_strcmp(s, "\n"))
+		if (_strcmp(line, "\n"))
 		{
-			execute_line(s);
-			s = NULL;
+			execute_line(line);
+			line = NULL;
 		}
 	}
-	if (isatty(STDIN_FILENO) == 0)
-		return (0);
 
-	while (INFINITE)
+	while (gt != EOF)
 	{
 		write(STDOUT_FILENO, "$ ", 2);
-		gt = getline(&s, &count, stdin);
+		gt = getline(&line, &count, stdin);
 
-		if (gt == EOF)
+		if (gt != EOF && _strcmp(line, "\n"))
 		{
-			write(STDOUT_FILENO, "\nexit\n", 6);
-			free(s);
-			exit(0);
+			execute_line(line);
+			line = NULL;
 		}
+	}
 
-		if (_strcmp(s, "\n"))
-		{
-			execute_line(s);
-			s = NULL;
-		}
-
-		else
-		{
-			free(s);
-			s = NULL;
-		}
+	if (gt == EOF)
+	{
+		free(line);
+		line = NULL;
+		write(STDOUT_FILENO, "\nexit\n", 6);
 	}
 
 	return (0);

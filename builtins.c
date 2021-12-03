@@ -3,6 +3,11 @@
 #include <stdio.h>
 #include <unistd.h>
 
+/**
+ * fexit - exit shell using "exit <status>"
+ * @av: array of arguments
+ * Return: nothing as it exits
+ **/
 int fexit(char **av)
 {
 	int status;
@@ -17,21 +22,27 @@ int fexit(char **av)
 
 	if (av[1] == NULL)
 	{
+		free_tow(av);
 		exit(1);
 	}
 
 	else
 	{
 		status = _atoi(av[1]);
+		free_tow(av);
 		exit(status);
 	}
 
 	return (2);
 }
 
+/**
+ * fenv - print environment
+ * @av: array of arguments
+ * Return: (1) success (2) failure
+ **/
 int fenv(char **av)
 {
-	extern char **environ;
 	int i = 0;
 
 	if (len_tow(av) > 1)
@@ -54,6 +65,11 @@ int fenv(char **av)
 	return (1);
 }
 
+/**
+ * fcd - change directory of shell using "cd <dir>"
+ * @av: array of arguments
+ * Return: (1)success (2)fail
+ **/
 int fcd(char **av)
 {
 	if (len_tow(av) > 2)

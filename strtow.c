@@ -19,7 +19,6 @@ char **strtow(const char *str, const char del)
 		i++;
 	if (!str[i])
 		return (NULL);
-
 	i = 0;
 	while (str[i])
 	{
@@ -31,16 +30,15 @@ char **strtow(const char *str, const char del)
 			s[w] = NULL;
 			while (str[j] && str[j] != del)
 			{
-				s[w] = _realloc(s[w], sizeof(char) * (j - i), sizeof(char) * ((j - i) + 1));
+				s[w] = _realloc(s[w], (j - i), ((j - i) + 1));
 				s[w][j - i] = str[j];
 				j++;
 			}
-			s[w] = _realloc(s[w], sizeof(char) * (j - i), sizeof(char) * ((j - i) + 1));
-			s[w][j-i] = '\0';
+			s[w] = _realloc(s[w], (j - i), ((j - i) + 1));
+			s[w][j - i] = '\0';
 			i += (j - i);
 			w++;
 		}
-
 		else
 			i++;
 	}

@@ -2,7 +2,12 @@
 #include "builtins.h"
 #include "strtow.h"
 
-
+/**
+ * err_out - print commont shell error
+ * @name: name of component producing the error
+ * @err: string of error
+ *
+ **/
 void err_out(char *name, char *err)
 {
 	write(STDOUT_FILENO, "hsh: ", 5);
@@ -11,6 +16,12 @@ void err_out(char *name, char *err)
 	write(STDOUT_FILENO, err, _strlen(err));
 }
 
+/**
+ * exec_bltn - execute builtin shell functions
+ * @av: array of arguments
+ * Return: (1) success (2) error
+ *
+ **/
 int exec_bltn(char **av)
 {
 	bltn bltns[] = {{"cd", fcd}, {"exit", fexit},
@@ -20,12 +31,12 @@ int exec_bltn(char **av)
 	while (bltns[i].s)
 	{
 		if (_strcmp(bltns[i].s, av[0]) == 0)
-			return(bltns[i].f(av));
+			return (bltns[i].f(av));
 
 		i++;
 	}
 
-	return(0);
+	return (0);
 }
 
 /**
@@ -68,6 +79,7 @@ void execute_line(char *line)
 {
 	char **av;
 
+	/* remove \n from line */
 	line[_strlen(line) - 1] = '\0';
 	av = strtow(line, ' ');
 	free(line);
@@ -77,7 +89,7 @@ void execute_line(char *line)
 		if (exec_bltn(av))
 			free_tow(av);
 
-		else if(is_dir(av[0]))
+		else if (is_dir(av[0]))
 		{
 			err_out(av[0], "Is a directory\n");
 			free_tow(av);
