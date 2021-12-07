@@ -89,12 +89,6 @@ void execute_line(char *line)
 		if (exec_bltn(av))
 			free_tow(av);
 
-		else if (is_dir(av[0]))
-		{
-			err_out(av[0], "Is a directory\n");
-			free_tow(av);
-		}
-
 
 		else if (is_path(av[0]))
 		{
@@ -112,7 +106,7 @@ void execute_line(char *line)
 
 		else
 		{
-			err_out(av[0], "command not found\n");
+			err_out(av[0], "not found\n");
 			free_tow(av);
 		}
 	}

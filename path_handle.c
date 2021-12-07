@@ -5,22 +5,6 @@
 #include <sys/stat.h>
 
 /**
- * is_dir - is file a directory
- * @file: path to file
- * Return: (0) not a dir (1) is dir
- **/
-int is_dir(char *file)
-{
-	struct stat st;
-
-	if (stat(file, &st) == 0)
-		return (S_ISDIR(st.st_mode));
-
-	else
-		return (0);
-}
-
-/**
  * is_path - if path not absolute
  * @path: path of function
  *

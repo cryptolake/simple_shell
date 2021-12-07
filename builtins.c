@@ -12,18 +12,10 @@ int fexit(char **av)
 {
 	int status;
 
-	/*write(STDOUT_FILENO, "exit\n", 5);*/
-
-	if (len_tow(av) > 2)
-	{
-		err_out("exit", "too many arguments\n");
-		return (2);
-	}
-
 	if (av[1] == NULL)
 	{
 		free_tow(av);
-		_exit(1);
+		_exit(0);
 	}
 
 	else
@@ -32,7 +24,8 @@ int fexit(char **av)
 		free_tow(av);
 		_exit(status);
 	}
-
+	
+	return (2);
 }
 
 /**
@@ -71,12 +64,6 @@ int fenv(char **av)
  **/
 int fcd(char **av)
 {
-	if (len_tow(av) > 2)
-	{
-		err_out("cd", "too many arguments\n");
-		return (2);
-	}
-
 	if (av[1] == NULL)
 	{
 		if (chdir(_getenv("HOME")) == -1)

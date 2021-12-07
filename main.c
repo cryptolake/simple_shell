@@ -20,10 +20,6 @@ void shell_loop(int interactive)
 		if (gt == EOF)
 		{
 			free(line);
-
-			if (interactive)
-				write(STDOUT_FILENO, "\nexit\n", 6);
-
 			exit(0);
 		}
 		if (_strcmp(line, "\n"))
