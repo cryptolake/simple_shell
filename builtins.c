@@ -12,7 +12,7 @@ int fexit(char **av)
 {
 	int status;
 
-	write(STDOUT_FILENO, "exit\n", 5);
+	/*write(STDOUT_FILENO, "exit\n", 5);*/
 
 	if (len_tow(av) > 2)
 	{
