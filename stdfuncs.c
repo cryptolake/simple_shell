@@ -1,12 +1,12 @@
 #include "main.h"
 
 /**
- * isn - check if character a number or not
- *
- * @c: character
- *
- * Return: 1 number, 0 not a number
- **/
+* isn - check if character a number or not
+*
+* @c: character
+*
+* Return: 1 number, 0 not a number
+**/
 int isn(char c)
 {
 	if (c >= '0' && c <= '9')
@@ -20,13 +20,13 @@ int isn(char c)
 }
 
 /**
- * sign - return the sign of string before a number
- *
- * @s: string
- * @l: length of string
- *
- * Return: 1 positive, -1 negative
- **/
+* sign - return the sign of string before a number
+*
+* @s: string
+* @l: length of string
+*
+* Return: 1 positive, -1 negative
+**/
 int sign(const char *s, int l)
 {
 	int i, n;
@@ -47,12 +47,12 @@ int sign(const char *s, int l)
 
 
 /**
- * numl - get the length of the number inside a string
- * @s: string
- * @i: first index of the number
- *
- * Return: index of the last digit of number
- **/
+* numl - get the length of the number inside a string
+* @s: string
+* @i: first index of the number
+*
+* Return: index of the last digit of number
+**/
 int numl(const char *s, int i)
 {
 	while (isn(s[i]))
@@ -97,7 +97,7 @@ int _atoi(const char *s)
 		{
 			n = n + k * (s[j] - '0');
 			if (j < numl(s, i) - 1)
-				n *= 10;
+			n *= 10;
 		}
 		return (n);
 	}

@@ -23,17 +23,16 @@ int fexit(char **av)
 	if (av[1] == NULL)
 	{
 		free_tow(av);
-		exit(1);
+		_exit(1);
 	}
 
 	else
 	{
 		status = _atoi(av[1]);
 		free_tow(av);
-		exit(status);
+		_exit(status);
 	}
 
-	return (2);
 }
 
 /**
@@ -58,10 +57,10 @@ int fenv(char **av)
 			perror("env");
 			return (2);
 		}
+		write(STDOUT_FILENO, "\n", 1);
 
 		i++;
 	}
-	write(STDOUT_FILENO, "\n", 1);
 	return (1);
 }
 

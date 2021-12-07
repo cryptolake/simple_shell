@@ -86,7 +86,6 @@ char *path_match(char **exec)
 
 	while (arr_p[i] != NULL)
 	{
-
 		p = make_path(arr_p[i], *exec);
 		if (stat(p, &st) == 0)
 		{
@@ -99,7 +98,6 @@ char *path_match(char **exec)
 		free(p);
 		i++;
 	}
-
 	free_tow(arr_p);
 	return (NULL);
 }
