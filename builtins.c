@@ -24,7 +24,6 @@ int fexit(char **av)
 		free_tow(av);
 		_exit(status);
 	}
-	
 	return (2);
 }
 
