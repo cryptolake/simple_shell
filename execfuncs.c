@@ -78,36 +78,42 @@ void run_av(char **av)
 void execute_line(char *line)
 {
 	char **av;
+	char **lines;
+	int i = 0;
 
 	/* remove \n from line */
 	line[_strlen(line) - 1] = '\0';
-	av = strtow(line, ' ');
+	lines = strtow(line, ';');
 	free(line);
-
-	if (av != NULL)
+	while (lines[i])
 	{
-		if (exec_bltn(av))
-			free_tow(av);
+		av = strtow(lines[i], ' ');
+		free(lines[i]);
+		i++;
 
-
-		else if (is_path(av[0]))
+		if (av != NULL)
 		{
-			run_av(av);
-			free_tow(av);
-		}
+			if (exec_bltn(av))
+				free_tow(av);
 
+			else if (is_path(av[0]))
+			{
+				run_av(av);
+				free_tow(av);
+			}
 
-		else if (path_match(&av[0]))
-		{
-			run_av(av);
-			free_tow(av);
+			else if (path_match(&av[0]))
+			{
+				run_av(av);
+				free_tow(av);
+			}
 
-		}
-
-		else
-		{
-			err_out(av[0], "not found\n");
-			free_tow(av);
+			else
+			{
+				err_out(av[0], "not found\n");
+				free_tow(av);
+			}
 		}
 	}
+	free(lines);
 }

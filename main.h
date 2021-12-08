@@ -29,4 +29,5 @@ void run_av(char **av);
 void execute_line(char *line);
 void err_out(char *name, char *err);
 
+/* ssize_t _getline(char **line); */
 #endif
