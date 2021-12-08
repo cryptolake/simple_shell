@@ -3,6 +3,8 @@
 #include "strtow.h"
 #include <sys/wait.h>
 
+char **lines;
+
 /**
 * err_out - print commont shell error
 * @name: name of component producing the error
@@ -76,7 +78,7 @@ int run_av(char **av)
 **/
 void execute_line(char *line)
 {
-	char **av, *p, **lines;
+	char **av, *p;
 	int i = 0;
 
 	line[_strlen(line) - 1] = '\0';

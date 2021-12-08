@@ -15,6 +15,7 @@ int fexit(char **av)
 	if (av[1] == NULL)
 	{
 		free_tow(av);
+		free(lines);
 		_exit(0);
 	}
 
@@ -22,6 +23,7 @@ int fexit(char **av)
 	{
 		status = _atoi(av[1]);
 		free_tow(av);
+		free(lines);
 		_exit(status);
 	}
 	return (2);

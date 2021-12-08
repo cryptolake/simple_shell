@@ -9,6 +9,7 @@
 #include <stdlib.h>
 
 extern char **environ;
+extern char **lines;
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *_memcpy(char *dest, char *src, unsigned int n);
 
