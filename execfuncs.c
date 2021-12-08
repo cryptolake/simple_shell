@@ -4,11 +4,11 @@
 #include <sys/wait.h>
 
 /**
- * err_out - print commont shell error
- * @name: name of component producing the error
- * @err: string of error
- *
- **/
+* err_out - print commont shell error
+* @name: name of component producing the error
+* @err: string of error
+*
+**/
 void err_out(char *name, char *err)
 {
 	write(STDOUT_FILENO, "hsh: ", 5);
@@ -18,22 +18,21 @@ void err_out(char *name, char *err)
 }
 
 /**
- * exec_bltn - execute builtin shell functions
- * @av: array of arguments
- * Return: (1) success (2) error
- *
- **/
+* exec_bltn - execute builtin shell functions
+* @av: array of arguments
+* Return: (1) success (2) error
+*
+**/
 int exec_bltn(char **av)
 {
 	bltn bltns[] = {{"cd", fcd}, {"exit", fexit},
-				  {"env", fenv}, {NULL, NULL}};
+		{"env", fenv}, {NULL, NULL}};
 	int i = 0;
 
 	while (bltns[i].s)
 	{
 		if (_strcmp(bltns[i].s, av[0]) == 0)
 			return (bltns[i].f(av));
-
 		i++;
 	}
 
@@ -41,10 +40,12 @@ int exec_bltn(char **av)
 }
 
 /**
- * run_av - fork and run program with parameters
- *
- * @av: array of strings of program and it's pramaters
- **/
+* run_av - fork and run program with parameters
+*
+* @av: array of strings of program and it's pramaters
+*
+* Return: return value of child process
+**/
 int run_av(char **av)
 {
 
@@ -60,7 +61,7 @@ int run_av(char **av)
 	{
 		my_pid = execve(av[0], av, environ);
 		if (my_pid == -1)
-			exit(1);
+		exit(1);
 	}
 
 	else
@@ -70,17 +71,14 @@ int run_av(char **av)
 }
 
 /**
- * execute_line - execute line of commands
- * @line: line
- **/
+* execute_line - execute line of commands
+* @line: line
+**/
 void execute_line(char *line)
 {
-	char **av;
-	char *p;
-	char **lines;
+	char **av, *p, **lines;
 	int i = 0;
 
-	/* remove \n from line */
 	line[_strlen(line) - 1] = '\0';
 	lines = strtow(line, ';');
 	free(line);
@@ -89,39 +87,30 @@ void execute_line(char *line)
 		av = strtow(lines[i], ' ');
 		free(lines[i]);
 		i++;
-
 		if (av != NULL)
 		{
+			exec_bltn(av);
 
-			if (exec_bltn(av))
-				free_tow(av);
-			else 
+			p = _strdup(av[0]);
+
+			if (is_path(av[0]))
 			{
-				p = _strdup(av[0]);
+				if (run_av(av))
+					perror(p);
 
-				if (is_path(av[0]))
-				{
-					if (run_av(av))
-						perror(p);
-
-					free_tow(av);
-				}
-
-				else if (path_match(&av[0]))
-				{
-					if (run_av(av))
-						perror(p);
-
-					free_tow(av);
-				}
-
-				else
-				{
-					err_out(av[0], "not found\n");
-					free_tow(av);
-				}
-				free(p);
 			}
+
+			else if (path_match(&av[0]))
+			{
+				if (run_av(av))
+					perror(p);
+			}
+
+			else
+				err_out(av[0], "not found\n");
+
+			free(p);
+			free_tow(av);
 		}
 	}
 	free(lines);
