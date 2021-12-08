@@ -25,7 +25,7 @@ int is_dir(char *file);
 
 int _atoi(const char *s);
 
-void run_av(char **av);
+int run_av(char **av);
 void execute_line(char *line);
 void err_out(char *name, char *err);
 

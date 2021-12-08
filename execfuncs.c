@@ -1,6 +1,7 @@
 #include "main.h"
 #include "builtins.h"
 #include "strtow.h"
+#include <sys/wait.h>
 
 /**
  * err_out - print commont shell error
@@ -44,7 +45,7 @@ int exec_bltn(char **av)
  *
  * @av: array of strings of program and it's pramaters
  **/
-void run_av(char **av)
+int run_av(char **av)
 {
 
 	pid_t my_pid, child;
@@ -57,18 +58,15 @@ void run_av(char **av)
 
 	if (child == 0)
 	{
-		my_pid = execve(av[0], av, NULL);
-
+		my_pid = execve(av[0], av, environ);
 		if (my_pid == -1)
-		{
-			perror(av[0]);
-			free_tow(av);
 			exit(1);
-		}
 	}
 
 	else
 		wait(&wstatus);
+
+	return (WEXITSTATUS(wstatus));
 }
 
 /**
@@ -78,6 +76,7 @@ void run_av(char **av)
 void execute_line(char *line)
 {
 	char **av;
+	char *p;
 	char **lines;
 	int i = 0;
 
@@ -93,25 +92,35 @@ void execute_line(char *line)
 
 		if (av != NULL)
 		{
+
 			if (exec_bltn(av))
 				free_tow(av);
-
-			else if (is_path(av[0]))
+			else 
 			{
-				run_av(av);
-				free_tow(av);
-			}
+				p = _strdup(av[0]);
 
-			else if (path_match(&av[0]))
-			{
-				run_av(av);
-				free_tow(av);
-			}
+				if (is_path(av[0]))
+				{
+					if (run_av(av))
+						perror(p);
 
-			else
-			{
-				err_out(av[0], "not found\n");
-				free_tow(av);
+					free_tow(av);
+				}
+
+				else if (path_match(&av[0]))
+				{
+					if (run_av(av))
+						perror(p);
+
+					free_tow(av);
+				}
+
+				else
+				{
+					err_out(av[0], "not found\n");
+					free_tow(av);
+				}
+				free(p);
 			}
 		}
 	}
