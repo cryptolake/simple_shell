@@ -85,7 +85,7 @@ void execute_line(char *line)
 	line[_strlen(line) - 1] = '\0';
 	lines = strtow(line, ';');
 	free(line);
-	while (lines[i])
+	while (lines && lines[i])
 	{
 		av = strtow(lines[i], ' ');
 		free(lines[i]);
