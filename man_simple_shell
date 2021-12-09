@@ -1,0 +1,25 @@
+.TH "Holberton Simple Shell" 1
+.SH NAME
+hsh \- holberton simple shell, a simple shell like sh
+.SH SYNOPSIS
+
+$ [command [argument...]]
+
+echo "[command [argument...]]" | ./hsh
+.SH DESCRIPTION
+The simple shell is a simple that executes commands and looks in the PATH for commands. It also supports builtins commands such as exit, env and cd. 
+.SH OPERANDS
+Command: A command/program it can be a builtin like cd, a full path to an executable like /bin/ls or an executable located in a directory in $PATH.
+
+Argument: Optinal arguments for the given program or builtin. 
+
+.SH BUILTINS
+
+cd: [argument] Change directory of the shell, if called alone without argument it will change to $HOME.
+
+env: Print the current environment.
+
+exit: [argument] Exit the shell if executed without argument it will exit with exit code 1 if it does with an argument will exit with the argument.
+
+.SH AUTHOR
+Dhia Haq ben dahmeni
