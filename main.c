@@ -40,11 +40,7 @@ void shell_loop(int interactive)
 int main(void)
 {
 
-	if (isatty(STDIN_FILENO) == 0)
-		shell_loop(0);
-
-	else
-		shell_loop(1);
+	shell_loop(isatty(STDIN_FILENO));
 
 	return (0);
 }

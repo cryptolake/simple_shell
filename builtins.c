@@ -4,10 +4,11 @@
 #include <unistd.h>
 
 /**
- * fexit - exit shell using "exit <status>"
- * @av: array of arguments
- * Return: nothing as it exits
- **/
+* fexit - exit shell using "exit <status>"
+* @av: array of arguments
+*
+* Return: nothing as it exits
+**/
 int fexit(char **av)
 {
 	int status;
@@ -15,7 +16,6 @@ int fexit(char **av)
 	if (av[1] == NULL)
 	{
 		free_tow(av);
-		free(lines);
 		_exit(0);
 	}
 
@@ -23,26 +23,19 @@ int fexit(char **av)
 	{
 		status = _atoi(av[1]);
 		free_tow(av);
-		free(lines);
 		_exit(status);
 	}
 	return (2);
 }
 
 /**
- * fenv - print environment
- * @av: array of arguments
- * Return: (1) success (2) failure
- **/
-int fenv(char **av)
+* fenv - print environment
+* @av: array of arguments
+* Return: (1) success (2) failure
+**/
+int fenv(char **av __attribute__((unused)))
 {
 	int i = 0;
-
-	if (len_tow(av) > 1)
-	{
-		err_out("env", "too many arguments\n");
-		return (2);
-	}
 
 	while (environ[i])
 	{
@@ -59,10 +52,10 @@ int fenv(char **av)
 }
 
 /**
- * fcd - change directory of shell using "cd <dir>"
- * @av: array of arguments
- * Return: (1)success (2)fail
- **/
+* fcd - change directory of shell using "cd <dir>"
+* @av: array of arguments
+* Return: (1)success (2)fail
+**/
 int fcd(char **av)
 {
 	if (av[1] == NULL)

@@ -1,9 +1,6 @@
 #include "main.h"
 #include "builtins.h"
 #include "strtow.h"
-#include <sys/wait.h>
-
-char **lines;
 
 /**
 * err_out - print commont shell error
@@ -63,7 +60,7 @@ int run_av(char **av)
 	{
 		my_pid = execve(av[0], av, environ);
 		if (my_pid == -1)
-		exit(1);
+			exit(1);
 	}
 
 	else
@@ -79,6 +76,7 @@ int run_av(char **av)
 void execute_line(char *line)
 {
 	char **av, *p;
+	char **lines;
 	int i = 0;
 
 	line[_strlen(line) - 1] = '\0';
@@ -87,33 +85,34 @@ void execute_line(char *line)
 	while (lines && lines[i])
 	{
 		av = strtow(lines[i], ' ');
-		free(lines[i]);
 		i++;
 		if (av != NULL)
 		{
-			exec_bltn(av);
+			if (!_strcmp(av[0], "exit"))
+				free_tow(lines);
 
-			p = _strdup(av[0]);
-
-			if (is_path(av[0]))
+			if (!exec_bltn(av))
 			{
-				if (run_av(av))
-					perror(p);
+				p = _strdup(av[0]);
 
+				if (is_path(av[0]))
+				{
+					/* if (run_av(av)) */
+					/* 	perror(p); */
+					run_av(av);
+				}
+				else if (path_match(&av[0]))
+				{
+					/* if (run_av(av)) */
+					/* 	perror(p); */
+					run_av(av);
+				}
+				else
+					err_out(av[0], "not found\n");
+				free(p);
 			}
-
-			else if (path_match(&av[0]))
-			{
-				if (run_av(av))
-					perror(p);
-			}
-
-			else
-				err_out(av[0], "not found\n");
-
-			free(p);
-			free_tow(av);
+		free_tow(av);
 		}
 	}
-	free(lines);
+	free_tow(lines);
 }

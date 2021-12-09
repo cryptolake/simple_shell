@@ -1,7 +1,6 @@
 #include "main.h"
 #include <stddef.h>
 
-
 /**
  * strtow - split a string into tokens by delimeter
  *
